@@ -1,13 +1,17 @@
 import React from "react";
-import Business from '../Business/Business';
+import styles from "./BusinessList.module.css";
+
+import Business from "../Business/Business";
 
 const BusinessList = () => {
-  return(
-    <div>
-      <Business></Business>
-      <Business></Business>
-      <Business></Business>
-      <Business></Business>
+  return (
+    <div className={styles.BusinessList}>
+      <Business />
+      <Business />
+      <Business />
+      <Business />
+      <Business />
+      <Business />
     </div>
   );
 };

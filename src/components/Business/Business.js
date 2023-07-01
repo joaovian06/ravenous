@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Business.module.css";
 
 const business = {
   imageSrc:
@@ -15,24 +16,25 @@ const business = {
 
 const Business = () => {
   return (
-    <>
-      <div>
-        <img src={business.imageSrc}/>
-        <h1>{business.name}</h1>
+    <div className={styles.Business}>
+      <div className={styles.imageContainer}>
+        <img src={business.imageSrc} alt="" />
       </div>
-      <div>
-        <p>{business.address}</p>
-        <p>{business.city}</p>
-        <p>{business.state}</p>
-        <p>{business.zipCode}</p>
+      <h2>{business.name}</h2>
+      <div className={styles.BusinessInformation}>
+        <div className={styles.BusinessAddress}>
+          <p>{business.address}</p>
+          <p>{business.city}</p>
+          <p>{`${business.state} ${business.zipCode}`}</p>
+        </div>
+        <div className={styles.BusinessReviews}>
+          <h3>{business.category.toUpperCase()}</h3>
+          <h3 className={styles.rating}>{`${business.rating} stars`}</h3>
+          <p>{`${business.reviewCount} reviews`}</p>
+        </div>
       </div>
-      <div>
-        <p>{business.category}</p>
-        <p>{business.rating}</p>
-        <p>{business.reviewCount}</p>
-      </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
 export default Business;
