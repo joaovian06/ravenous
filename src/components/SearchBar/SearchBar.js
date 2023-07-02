@@ -7,60 +7,66 @@ const sortByOptions = {
   "Most Reviewed": "review_count",
 };
 
-const SearchBar = (props) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [location, setLocation] = useState('');
-  const [sortingOption, setSortingOption] = useState('');
+const SearchBar = ({ searchYelp }) => {
+  const [term, setTerm] = useState("");
+  const [location, setLocation] = useState("");
+  const [sortBy, setSortBy] = useState("best_match");
 
-  const onSearchChange = (event) => {
-    setSearchTerm({ searchTerm: event.target.value });
-  }
+  const getSortByClass = (sortByOption) => {
+    if (sortBy === sortByOption) {
+      return styles.active;
+    }
+    return "";
+  };
 
-  const onLocationChange = (event) => {
-    setLocation({ location: event.target.value });
-  }
+  const handleSortByChange = (sortByOption) => {
+    setSortBy(sortByOption);
+  };
 
-  const onSortingOptionClick = (event) => {
-    setSortingOption({ sortingOption: event.target.value });
-  }
+  const handleTermChange = (event) => {
+    setTerm(event.target.value);
+  };
+
+  const handleLocationChange = (event) => {
+    setLocation(event.target.value);
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    searchYelp(term, location, sortBy);
+  };
 
   const renderSortByOptions = () => {
     return Object.keys(sortByOptions).map((sortByOption) => {
       let sortByOptionValue = sortByOptions[sortByOption];
-      return <li value={sortingOption} onClick={onSortingOptionClick} key={sortByOptionValue}>{sortByOption}</li>;
+      return (
+        <li
+          className={getSortByClass(sortByOptionValue)}
+          key={sortByOptionValue}
+          onClick={() => {
+            handleSortByChange(sortByOptionValue);
+          }}
+        >
+          {sortByOption}
+        </li>
+      );
     });
   };
-
-  const onSearchSubmit = (event) => {
-    console.log({
-      searchTerm: searchTerm,
-      location: location,
-      sortingOption: sortingOption
-    })
-  }
 
   return (
     <div className={styles.SearchBar}>
       <div className={styles.SearchBarSortOptions}>
-        <ul >{renderSortByOptions()}</ul>
+        <ul>{renderSortByOptions()}</ul>
       </div>
-      <div className={styles.SearchBarFields}>
-        <input
-          type="text"
-          placeholder="Search Term"
-          value={searchTerm}
-          onChange={onSearchChange}
-        />
-        <input
-          type="text"
-          placeholder="Location"
-          value={location}
-          onChange={onLocationChange}
-        />
-      </div>
-      <div className={styles.SearchBarSubmit}>
-        <a onClick={onSearchSubmit}>Let's Go</a>
-      </div>
+      <form onSubmit={handleSearch}>
+        <div className={styles.SearchBarFields}>
+          <input placeholder="Search Businesses" onChange={handleTermChange} />
+          <input placeholder="Where?" onChange={handleLocationChange} />
+        </div>
+        <div className={styles.SearchBarSubmit}>
+          <button type="submit">Let's Go</button>
+        </div>
+      </form>
     </div>
   );
 };
